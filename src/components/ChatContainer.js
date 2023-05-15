@@ -1,19 +1,31 @@
-import React from 'react'
+import React, {useState,useEffect} from 'react'
 import styled from "styled-components"
-import { sendMessageRoute } from '../utils/APIRoutes';
+import { sendMessageRoute, getAllMessagesRoute } from '../utils/APIRoutes';
 import ChatInput from './ChatInput';
 import Logout from './Logout';
-import Message from './Message';
 import axios from 'axios';
 
 const ChatContainer = ({ currentChat, currentUser }) => {
+    const [messages, setMessages] = useState([]);
+    useEffect(() => {
+        async function fetchMessages() {
+            const response = await axios.post(getAllMessagesRoute, {
+                from: currentUser._id,
+                to: currentChat._id,
+            });
+            setMessages(response.data);
+        }
+
+        fetchMessages();
+    }, [currentChat]);
+    
     const handleSendMsg = async (msg) => {
         await axios.post(sendMessageRoute, {
             from: currentUser._id,
             to: currentChat._id,
             message: msg,
         })
-    }
+    };
 
   return (
       <>
@@ -34,7 +46,23 @@ const ChatContainer = ({ currentChat, currentUser }) => {
                           <Logout />
                       </div>
                    
-                <Message/>
+                      <div className="chat-messages">
+                          {messages.length > 0 ? (
+                              messages.map((message) => (
+                                  <div key={message.id}>
+                                      <div
+                                          className={`message ${message.fromSelf ? "sended" : "recieved"}`}
+                                      >
+                                          <div className="content ">
+                                              <p>{message.message}</p>
+                                          </div>
+                                      </div>
+                                  </div>
+                              ))
+                          ) : (
+                              <p>No messages yet</p>
+                          )}
+                      </div>
                  <ChatInput handleSendMsg={handleSendMsg} />
                 </Container>
               )
