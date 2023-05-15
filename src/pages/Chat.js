@@ -52,7 +52,7 @@ function Chat() {
                     <Welcome currentUser={currentUser} />
                     )
                          : (
-                    <ChatContainer currentUser={currentUser} />
+                    <ChatContainer currentChat={currentChat} />
                     )
                 }
             </div>

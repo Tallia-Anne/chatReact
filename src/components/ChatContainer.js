@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React from 'react'
 import styled from "styled-components"
 import ChatInput from './ChatInput';
 import Logout from './Logout';
@@ -25,7 +25,8 @@ const ChatContainer = ({ currentChat }) => {
                           <Logout />
                       </div>
                    
-                        <ChatInput/>
+                      <div className="chat-messages"></div>
+                    <div className="chat-input"></div>
                 </Container>
               )
           }
