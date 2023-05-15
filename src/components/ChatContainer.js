@@ -26,7 +26,7 @@ const ChatContainer = ({ currentChat }) => {
                       </div>
                    
                       <div className="chat-messages"></div>
-                    <div className="chat-input"></div>
+                 <ChatInput/>
                 </Container>
               )
           }
